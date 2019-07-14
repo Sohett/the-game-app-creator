@@ -5,12 +5,12 @@
     h3
     p
       u Indices
-    p Prends une douche 🚿! L'eau chaude ça aide à voir les choses plus clairement 💨...
+    p A toi de trouver les 8 moments de notre histoire cacher dans la pièce. Attention 📅 !
     h3
       u Ta réponse:
     <el-form :model="showerForm" :rules="rules" ref="showerForm" label-width="120px" label-position="top">
       <el-form-item label="" prop="name">
-        <el-input placeholder="" v-model="showerForm.name"></el-input>
+        <el-input placeholder="Réponse de style: UCJDWMNX" v-model="showerForm.name"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm">Soumettre ma réponse<i class="el-icon-arrow-right el-icon-right"></i></el-button>
@@ -24,7 +24,9 @@
   export default {
     data() {
       var validateOfficeRoom = (rule, value, callback) => {
-        if (value.toUpperCase() !== 'ENVIE DE TOI') {
+        if (value.length != 8) {
+          callback(new Error('La réponse doit être 8 lettres'));
+        } else if (value.toUpperCase() !== 'CRTBVNDG') {
           callback(new Error('Mauvaise réponse'));
         } else {
           callback();
