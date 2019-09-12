@@ -28,12 +28,12 @@
           //- <el-button type="warning" size="small" @click="clearCookies">Clear Cookies</el-button>
         </div>
       </div>
-      </el-col>
-      <el-col :xs="24" v-if='lost'>
-        h1.lost Désolé Astrid, ton temps est dépassé. Tu as perdu !!! 😓
-      </el-col>
-      <el-col :xs="24" v-if='won'>
-        h1.won 🎉Bravo Astrid, tu as assuré✌️ Tu as gagné !👏
+    </el-col>
+    <el-col :xs="24" v-if='lost'>
+      h1.lost Désolé Astrid, ton temps est dépassé. Tu as perdu !!! 😓
+    </el-col>
+    <el-col :xs="24" v-if='won'>
+      h1.won 🎉Bravo Astrid, tu as assuré✌️ Tu as gagné !👏
     </el-col>
   </el-row>
 </template>

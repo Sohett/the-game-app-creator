@@ -1,5 +1,6 @@
 <template lang="pug">
   div
+    <vue-markdown>test</vue-markdown>
     p Bienvenue Astrid à ton
     h1
       b "Escape-Appartment"

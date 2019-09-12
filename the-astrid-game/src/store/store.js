@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as c from './constants'
+import { client, app } from './services'
 
 Vue.use(Vuex)
 
@@ -10,11 +11,14 @@ export default new Vuex.Store({
     currentStep: 0,
     gameStartTime: null,
     restoredGame: false,
-    finalCode: 9254
+    finalCode: 9254,
+    loading: false,
+    client: null,
+    app: null
   },
   getters: {
     countdownValue (state) {
-      return state.countdownValue;
+      return state.client.countdown * 1000;
     },
     getCurrentStep (state) {
       return state.currentStep;
@@ -35,6 +39,15 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    [c.SET_LOADING] (state, payload) {
+      state.loading = payload
+    },
+    [c.SET_CLIENT] (state, payload) {
+      state.client = payload
+    },
+    [c.SET_APP] (state, payload) {
+      state.app = payload
+    },
     [c.SET_CURRENT_STEP_AT] (state, payload) {
       state.currentStep = payload;
     },
@@ -49,12 +62,34 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    initializeApp({commit}) {
+    async initializeApp({commit, dispatch}) {
       const current_step = parseInt(localStorage.getItem('game_current_step')) || 0
       const start_time = parseInt(localStorage.getItem('game_start_timestamp'))
       commit(c.SET_CURRENT_STEP_AT, current_step);
       commit(c.SET_GAME_START, start_time);
-      start_time && commit(c.SET_RESTORED_GAME)
+      start_time && commit(c.SET_RESTORED_GAME);
+      await dispatch('fetchClient');
+      await dispatch('fetchApp');
+    },
+    async fetchClient ({ state, commit }) {
+      commit(c.SET_LOADING, true)
+      const { success, data } = await client.show()
+      console.log(data)
+      if (success) {
+        commit(c.SET_CLIENT, data)
+        commit(c.SET_LOADING, false)
+      }
+      return data
+    },
+    async fetchApp ({ state, commit }) {
+      commit(c.SET_LOADING, true)
+      const { success, data } = await app.show()
+      console.log(data)
+      if (success) {
+        commit(c.SET_APP, data)
+        commit(c.SET_LOADING, false)
+      }
+      return data
     },
     startGameStep({commit, dispatch}) {
       commit(c.SET_CURRENT_STEP_AT, 1);

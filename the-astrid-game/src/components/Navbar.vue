@@ -1,7 +1,7 @@
 <template lang="pug">
   <div class="countdown">
     <el-button v-if="joker" class="joker" type="success"><a class="call-text" href="tel:0498431947">Joker <i class="el-icon-phone-outline"></i></a></el-button>
-    <countdown :time="countdown" :auto-start="countdownAutoStart" ref="countdown" :transform="transform">
+    <countdown :time="countdown" :auto-start="countdownAutoStart" ref="countdown">
       <template slot-scope="props">Il te reste：{{ props.hours }} heure, {{ props.minutes }} minutes, {{ props.seconds }} secondes.</template>
     </countdown>
     <el-steps v-if='playing' class="steps" :active="activeStep" finish-status="success" align-center>
