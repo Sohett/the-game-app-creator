@@ -1,5 +1,29 @@
-# Astrid-Escape-Game
-Small VueJs App: Digital Escape Game for my girlfriend ⏳🕵️‍♀️💻🔐🎲
+# seraphinacademy-front
 
-### Preview
-<img src="https://thomas-sohet-public-images.s3.eu-central-1.amazonaws.com/The+Astrid+Escape+Game/The+Astrid+Escape+Game.png" width="250" style="text-align:center;"/>
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Run your tests
+```
+npm run test
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).

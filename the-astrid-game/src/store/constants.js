@@ -1,7 +1,0 @@
-export const SET_CURRENT_STEP = 'SET_CURRENT_STEP'
-export const SET_APP = 'SET_APP'
-export const SET_CLIENT = 'SET_CLIENT'
-export const SET_LOADING = 'SET_LOADING'
-export const SET_GAME_START = 'SET_GAME_START'
-export const SET_CURRENT_STEP_AT = 'SET_CURRENT_STEP_AT'
-export const SET_RESTORED_GAME = 'SET_RESTORED_GAME'
