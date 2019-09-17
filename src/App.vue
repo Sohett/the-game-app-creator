@@ -32,7 +32,7 @@
   },
   computed: {
     displayLoginPage () {
-      console.log(isLoggedIn())
+      console.log('is logged in: ', isLoggedIn())
       return (this.$route.name !== 'Callback' && !isLoggedIn())
     }
   }

@@ -6,29 +6,46 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    user: null
+    user: {
+      countdown: null,
+      email: null,
+      origin: null,
+      steps: null,
+      status: null
+    },
+    app: null
   },
   getters: {
-    getOrganization (state) {
-      return state.currentUserOrganization;
+    getStatus (state) {
+      return state.user.status;
     }
   },
   mutations: {
     [c.SET_USER] (state, payload) {
       state.user = payload
+    },
+    [c.SET_APP] (state, payload) {
+      state.app = payload
     }
   },
   actions: {
     async initializeApp({commit, dispatch}) {
       await dispatch('fetchUser');
+      await dispatch('fetchApp');
     },
     async fetchUser ({ state, commit }) {
-      const { success, data } = await user.show()
-      console.log(data)
-      if (success) {
-        commit(c.SET_USER, data)
-      }
-      return data
+      await user.show()
+        .then(res => {
+          console.log(res);
+          commit(c.SET_USER, res);
+        })
+    },
+    async fetchApp ({ state, commit }) {
+      await app.show(state.user.origin)
+        .then(res => {
+          console.log(res);
+          commit(c.SET_APP, res);
+        })
     }
   }
 })

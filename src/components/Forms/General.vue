@@ -1,5 +1,6 @@
 <template>
   <el-row>
+    <p>{{state}}</p>
     <el-col :span="12">
       <el-form :model="appForm" :rules="rules" ref="appForm" class="form">
         <el-form-item label="Email">
@@ -36,14 +37,14 @@
         <img src="../../assets/iphone-frame.png" class="frame">
         <div class="game-preview">
           <div class="navbar-preview">
-            <p>Il te reste {{ appForm.time }} heure(s), 0 min, 0 sec</p>
+            <p v-if="appForm.time">Il te reste {{ appForm.time }} heure(s), 0 min, 0 sec</p>
             <el-steps v-if="appForm.steps" class="steps" align-center size="mini">
               <el-step size="small" v-for='i in appForm.steps'></el-step>
             </el-steps>
           </div>
-          <div v-if='appForm.name' class="instruction-preview">
+          <div class="instruction-preview">
             <br>
-            <p><b>Bienvenue au "{{ appForm.name }}" digital Escape Game</b></p>
+            <p v-if="appForm.name"><b>Bienvenue au "{{ appForm.name }}" digital Escape Game</b></p>
             <span v-html="appForm.introduction"></span>
             <br>
             <el-button class="button-preview" type="primary" size="mini" disabled>Aller aux instructions</el-button>
@@ -56,12 +57,13 @@
 
 <script>
   import { operatorEmail } from '@/services/auth'
+  import { mapState } from 'vuex'
 
   export default {
     data() {
       return {
         appForm: {
-          email: operatorEmail(),
+          email: '',
           name: '',
           url: '',
           steps: null,
@@ -88,6 +90,9 @@
           ]
         }
       }
+    },
+    computed: {
+      ...mapState({state: 'user'}),
     },
     methods: {
       formatTooltip(val) {

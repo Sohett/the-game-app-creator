@@ -7,7 +7,7 @@ export const user = {
 }
 
 export const app = {
-  show () {
-    return API.get(`/app`)
+  show (params) {
+    return API.get(`/app?appOrigin=${params}`)
   }
 }
