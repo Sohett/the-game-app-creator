@@ -1,50 +1,51 @@
 import * as c from './constants'
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { user, app } from './services'
+import { app, steps } from './services'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    user: {
+    app: {
       countdown: null,
       email: null,
       origin: null,
       steps: null,
-      status: null
+      status: null,
+      name: null
     },
-    app: null
+    steps: null
   },
   getters: {
     getStatus (state) {
-      return state.user.status;
+      return state.app.status;
     }
   },
   mutations: {
-    [c.SET_USER] (state, payload) {
-      state.user = payload
-    },
     [c.SET_APP] (state, payload) {
       state.app = payload
+    },
+    [c.SET_STEPS] (state, payload) {
+      state.steps = payload
     }
   },
   actions: {
     async initializeApp({commit, dispatch}) {
-      await dispatch('fetchUser');
       await dispatch('fetchApp');
-    },
-    async fetchUser ({ state, commit }) {
-      await user.show()
-        .then(res => {
-          console.log(res);
-          commit(c.SET_USER, res);
-        })
+      await dispatch('fetchSteps');
     },
     async fetchApp ({ state, commit }) {
-      await app.show(state.user.origin)
+      await app.show()
         .then(res => {
           console.log(res);
           commit(c.SET_APP, res);
+        })
+    },
+    async fetchSteps ({ state, commit }) {
+      await steps.show(state.app.origin)
+        .then(res => {
+          console.log(res);
+          commit(c.SET_STEPS, res);
         })
     }
   }

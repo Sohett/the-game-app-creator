@@ -1,30 +1,29 @@
 <template>
   <el-row>
-    <p>{{state}}</p>
     <el-col :span="12">
       <el-form :model="appForm" :rules="rules" ref="appForm" class="form">
         <el-form-item label="Email">
-          <el-input v-model="appForm.email" :disabled="true"></el-input>
+          <el-input v-model="app.email" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="Name" prop="name" >
-          <el-input v-model="appForm.name" placeholder="Name of the app"></el-input>
+          <el-input v-model="app.name" placeholder="Name of the app"></el-input>
         </el-form-item>
         <el-form-item label="URL" prop="url">
-          <el-input v-model="appForm.url" :placeholder="appForm.name.toLowerCase()">
+          <el-input v-model="app.origin" :placeholder="app.name.toLowerCase()">
             <template slot="prepend">https://</template>
             <template slot="append">.the-game.website.com</template>
           </el-input>
         </el-form-item>
-        <el-form-item label="Number of steps (usually number of rooms)" prop="steps">
-          <span>👣</span>
-          <el-slider v-model="appForm.steps" :step="1" :max="appForm.maxStep"></el-slider>
-        </el-form-item>
         <el-form-item label="How long should the game last" prop="time">
           <span>⏱️</span>
-          <el-slider v-model="appForm.time" :step="1" :format-tooltip="formatTooltip" :max="appForm.maxTime"></el-slider>
+          <el-slider v-model="countdownInHours" :step="1" :format-tooltip="formatTooltip" :max="maxTime"></el-slider>
+        </el-form-item>
+        <el-form-item label="Number of steps (usually number of rooms)" prop="steps">
+          <span>👣</span>
+          <el-slider v-model="app.steps" :step="1" :max="maxStep"></el-slider>
         </el-form-item>
         <el-form-item label="Introduction" prop="introduction">
-          <el-input type="textarea" autosize :rows="4" placeholder="Write the introduction text" v-model="appForm.introduction">
+          <el-input type="textarea" autosize :rows="4" placeholder="Write the introduction text" v-model="steps.homepage.content">
           </el-input>
         </el-form-item>
         <el-form-item>
@@ -37,15 +36,15 @@
         <img src="../../assets/iphone-frame.png" class="frame">
         <div class="game-preview">
           <div class="navbar-preview">
-            <p v-if="appForm.time">Il te reste {{ appForm.time }} heure(s), 0 min, 0 sec</p>
-            <el-steps v-if="appForm.steps" class="steps" align-center size="mini">
-              <el-step size="small" v-for='i in appForm.steps'></el-step>
+            <p v-if="app.countdown">Il te reste {{ countdownInHours }} heure(s), 0 min, 0 sec</p>
+            <el-steps v-if="app.steps" class="steps" align-center size="mini">
+              <el-step size="small" v-for='i in app.steps' v-bind:key="i"></el-step>
             </el-steps>
           </div>
           <div class="instruction-preview">
             <br>
-            <p v-if="appForm.name"><b>Bienvenue au "{{ appForm.name }}" digital Escape Game</b></p>
-            <span v-html="appForm.introduction"></span>
+            <p v-if="app.name"><b>Bienvenue au "{{ app.name }}" digital Escape Game</b></p>
+            <span v-html="steps.homepage.content"></span>
             <br>
             <el-button class="button-preview" type="primary" size="mini" disabled>Aller aux instructions</el-button>
           </div>
@@ -62,16 +61,9 @@
   export default {
     data() {
       return {
-        appForm: {
-          email: '',
-          name: '',
-          url: '',
-          steps: null,
-          time: null,
-          maxStep: 10,
-          maxTime: 5,
-          introduction: "<p>🎲 😮 ❓🤔 😂</p><p>Concrêtement tu as un temps prédéfinis ci-dessus pour résoudre les énigmes🤞!</p><p>Bonne chance</p>"
-        },
+        maxTime: 5,
+        maxStep: 10,
+        appForm: {},
         rules: {
           name: [
             { required: true, message: 'Please input App name', trigger: 'change' }
@@ -92,7 +84,10 @@
       }
     },
     computed: {
-      ...mapState({state: 'user'}),
+      ...mapState(['app', 'steps']),
+      countdownInHours() {
+        return (this.app.countdown / 3600 )
+      }
     },
     methods: {
       formatTooltip(val) {
@@ -102,12 +97,12 @@
         this.$refs[appForm].validate((valid) => {
           if (valid) {
             this.$message({
-              message: `Congrats, the app ${this.appForm.name} was successfuly created.`,
+              message: `Congrats, the app ${this.app.name} was successfuly created.`,
               type: 'success'
             });
           } else {
             this.$message({
-              message: `Failed to create the app ${this.appForm.name}.`,
+              message: `Failed to create the app ${this.app.name}.`,
               type: 'error'
             });
             console.log('error submit!!');

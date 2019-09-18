@@ -11,6 +11,7 @@
 </template>
 
 <script>
+  import { mapActions } from 'vuex'
   import { isLoggedIn } from '@/services/auth'
   import Home from '@/components/Home'
   import AppFooter from './components/AppFooter'
@@ -35,6 +36,16 @@
       console.log('is logged in: ', isLoggedIn())
       return (this.$route.name !== 'Callback' && !isLoggedIn())
     }
+  },
+  methods: {
+    ...mapActions(['initializeApp'])
+  },
+  mounted () {
+    const loading = this.$loading();
+    this.initializeApp()
+      .then(_ => {
+        loading.close();
+      })
   }
 }
 </script>
