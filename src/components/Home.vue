@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import { mapGetters } from 'vuex'
 import GeneralForm from '@/components/Forms/General'
 
@@ -39,6 +40,16 @@ export default {
         return false
       }
     }
+  },
+  methods: {
+    ...mapActions(['initializeApp'])
+  },
+  mounted () {
+    const loading = this.$loading();
+    this.initializeApp()
+      .then(_ => {
+        loading.close();
+      })
   }
 }
 </script>

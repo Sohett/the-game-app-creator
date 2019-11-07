@@ -36,16 +36,6 @@
       console.log('is logged in: ', isLoggedIn())
       return (this.$route.name !== 'Callback' && !isLoggedIn())
     }
-  },
-  methods: {
-    ...mapActions(['initializeApp'])
-  },
-  mounted () {
-    const loading = this.$loading();
-    this.initializeApp()
-      .then(_ => {
-        loading.close();
-      })
   }
 }
 </script>

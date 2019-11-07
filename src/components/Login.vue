@@ -8,7 +8,6 @@
             <h1>Create a digital escape game app in a few minutes</h1>
             <p>The only limit is your creativity</p>
             <p>Transform any places into a game.</p>
-            <br>
             <el-button type="primary" @click="handleLog" icon="el-icon-success">Login</el-button>
           </div>
         </el-col>
@@ -58,7 +57,7 @@ h1 {
   top:30%;
   margin: auto;
   background-color: white;
-  height: 170px !important;
+  height: 200px !important;
   width: 200px !important;
   padding: 50px;
   border-radius: 8px;
